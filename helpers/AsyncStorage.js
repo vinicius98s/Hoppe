@@ -5,7 +5,7 @@ const LOGIN_DATA = '@Hoppe:LoginData'
 const USER_IMAGE = '@Hoppe:UserImage'
 const DOGS_DATA = '@Hoppe:DogsData'
 
-export async function wipeUserData() {
+export async function removeUserLoginData() {
 	try {
 		return await AsyncStorage.removeItem(LOGIN_DATA)
 	} catch (e) {
@@ -62,6 +62,14 @@ export async function wipeFirstView() {
 export async function setUserImage(image) {
 	try {
 		return await AsyncStorage.setItem(USER_IMAGE, image)
+	} catch (e) {
+		return e
+	}
+}
+
+export async function getUserImage() {
+	try {
+		return await AsyncStorage.getItem(USER_IMAGE)
 	} catch (e) {
 		return e
 	}

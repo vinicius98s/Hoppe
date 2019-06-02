@@ -20,7 +20,7 @@ const Title = styled.Text`
 const StyledButton = styled.TouchableOpacity`
 	border: 2px solid ${gold};
 	background: transparent;
-	padding: 5px 15px;
+	padding: 10px 15px;
 	align-items: center;
 	justify-content: center;
 	border-radius: 4;

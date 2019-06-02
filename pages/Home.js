@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components/native'
 
-import { gold } from '../helpers/colors'
+import { gold, darkerGrey } from '../helpers/colors'
 import { screenHeight, screenWidth } from '../helpers/phoneConstants'
 
 import Layout from '../components/Layout'
@@ -23,7 +23,11 @@ export default class Home extends React.Component {
 					<Description>Ele adora brincar com gente nova!</Description>
 					<Description>Porém ainda não tem nenhum padrinho ou madrinha.</Description>
 					<Description>Que tal ajudá-lo?</Description>
-					<Button title="conheça os animais" style={{ marginTop: 20 }} />
+					<Button
+						title="conheça os animais"
+						style={{ marginTop: 20 }}
+						onPress={() => this.props.navigation.navigate('Animals')}
+					/>
 				</HomeWrapper>
 			</Layout>
 		)

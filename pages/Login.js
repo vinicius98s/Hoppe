@@ -1,10 +1,10 @@
 import React from 'react'
 import styled from 'styled-components/native'
-import { Image, View, Text } from 'react-native'
+import { Image, View, ActivityIndicator } from 'react-native'
 
 import Button from '../components/Button'
 
-import { setUserLoginData, getUserLoginData } from '../helpers/AsyncStorage'
+import { setUserLoginData } from '../helpers/AsyncStorage'
 import { darkGrey, gold } from '../helpers/colors'
 import { checkLogin } from '../helpers/API'
 
@@ -21,7 +21,8 @@ export default class Login extends React.Component {
 		error: {
 			hadError: false,
 			errorMessage: ''
-		}
+		},
+		isLoading: false
 	}
 
 	setErrorMessage = (errorMessage) =>
@@ -33,21 +34,33 @@ export default class Login extends React.Component {
 		})
 
 	handleLogin = () => {
+		this.setState({ isLoading: true })
+
 		const userData = {
 			email: this.state.email.value,
 			password: this.state.password.value
 		}
 
-		if (!userData.email) return this.setErrorMessage('Insira seu email!')
+		if (!userData.email) {
+			this.setState({ isLoading: false })
+			return this.setErrorMessage('Insira seu email!')
+		}
 
-		if (!userData.password) return this.setErrorMessage('Insira sua senha!')
+		if (!userData.password) {
+			this.setState({ isLoading: false })
+			return this.setErrorMessage('Insira sua senha!')
+		}
 
 		checkLogin(userData)
 			.then((response) => {
+				this.setState({ isLoading: false })
 				if (typeof response === 'string') return this.setErrorMessage(response)
 				setUserLoginData(response).then(this.props.navigation.navigate('Home'))
 			})
-			.catch(() => setErrorMessage('Algo deu errado, tente novamente!'))
+			.catch(() => {
+				this.setState({ isLoading: false })
+				setErrorMessage('Algo deu errado, tente novamente!')
+			})
 	}
 
 	handleFocus = (input, focused) =>
@@ -65,6 +78,7 @@ export default class Login extends React.Component {
 				/>
 
 				{this.state.error.hadError && <Error>{this.state.error.errorMessage}</Error>}
+				{this.state.isLoading && <ActivityIndicator size="large" color={gold} />}
 
 				<Input
 					placeholder="EMAIL"
@@ -129,4 +143,5 @@ const Row = styled.View`
 
 const Error = styled.Text`
 	color: ${gold};
+	margin-bottom: 20;
 `

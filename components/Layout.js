@@ -5,7 +5,7 @@ import Header from './Header'
 import Menu from './Menu'
 
 import { darkGrey } from '../helpers/colors'
-import { screenHeight, statusBarHeight } from '../helpers/phoneConstants'
+import { screenHeight } from '../helpers/phoneConstants'
 
 export default function Layout(props) {
 	const { headerProps } = props
@@ -16,8 +16,12 @@ export default function Layout(props) {
 				withoutLogo={headerProps.withoutLogo}
 				headerLeft={headerProps.headerLeft}
 				handleOnLeftIconPress={headerProps.handleOnLeftIconPress}
+				headerRight={headerProps.headerRight}
+				handleOnRightIconPress={headerProps.handleOnRightIconPress}
+				title={headerProps.title}
+				description={headerProps.description}
 			/>
-			<ContentWrapper checkMarginTop={headerProps.withoutLogo} noPadding={props.noPadding}>
+			<ContentWrapper checkMarginTop={props.noPadding} noPadding={props.noPadding}>
 				{props.children}
 			</ContentWrapper>
 			{!props.noMenu && <Menu navigation={props.navigation} />}
@@ -29,6 +33,7 @@ const Container = styled.View`
 	flex: 1;
 	background: ${({ handleBackground }) => (handleBackground ? handleBackground : darkGrey)};
 	align-items: center;
+	position: relative;
 `
 
 const ContentWrapper = styled.ScrollView`
@@ -39,6 +44,6 @@ const ContentWrapper = styled.ScrollView`
         padding-right: 20;
         padding-left: 20;
     `}
-	margin-top: ${({ checkMarginTop }) => (checkMarginTop ? -statusBarHeight + 2 : 20)};
+	margin-top: ${({ checkMarginTop }) => (checkMarginTop ? -80 : 20)};
 	height: ${screenHeight - 125};
 `

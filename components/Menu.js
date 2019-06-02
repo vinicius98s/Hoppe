@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components/native'
-import { Text, View, Button, StyleSheet, Animated, Easing } from 'react-native'
+import { StyleSheet, Animated, Easing } from 'react-native'
 
 import MenuIcon from '../assets/icons/Menu'
 
@@ -22,6 +22,11 @@ export default class Menu extends React.Component {
 	state = {
 		isMenuOpened: false,
 		menuAnimation: new Animated.Value(screenHeight - screenHeight * 0.08)
+	}
+
+	handleNavigation = (screen) => {
+		this.toggleMenu()
+		this.props.navigation.navigate(screen)
 	}
 
 	toggleMenu = () => {
@@ -48,7 +53,7 @@ export default class Menu extends React.Component {
 				</TouchableWrapper>
 
 				<MenuContentWrapper>
-					<MenuItem>
+					<MenuItem onPress={() => this.handleNavigation('Profile')}>
 						<MenuImage source={require('../assets/img/MenuPerfil.png')} />
 						<MenuText>Perfil</MenuText>
 					</MenuItem>
@@ -56,7 +61,7 @@ export default class Menu extends React.Component {
 						<MenuImage source={require('../assets/img/MenuGrupo.png')} />
 						<MenuText>Grupo</MenuText>
 					</MenuItem>
-					<MenuItem fullWidth onPress={() => this.props.navigation.navigate('Animals')}>
+					<MenuItem fullWidth onPress={() => this.handleNavigation('Animals')}>
 						<MenuImage source={require('../assets/img/MenuAnimais.png')} />
 						<MenuText>Animais</MenuText>
 					</MenuItem>
@@ -64,7 +69,7 @@ export default class Menu extends React.Component {
 						<MenuImage source={require('../assets/img/MenuContato.png')} />
 						<MenuText>Contato</MenuText>
 					</MenuItem>
-					<MenuItem>
+					<MenuItem onPress={() => this.handleNavigation('About')}>
 						<MenuImage source={require('../assets/img/MenuSobre.png')} />
 						<MenuText>Sobre</MenuText>
 					</MenuItem>

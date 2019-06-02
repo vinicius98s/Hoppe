@@ -7,7 +7,7 @@ import { screenWidth } from '../helpers/phoneConstants'
 
 export default function Dog(props) {
 	return (
-		<DogWrapper reverseOrder={props.reverseOrder}>
+		<DogWrapper reverseOrder={props.reverseOrder} onPress={props.navigateToAnimalPage}>
 			<DogImage source={{ uri: `${BASE_URL}/assets/images/${props.dog.name}.png` }} />
 			<DogInfoWrapper>
 				<DogName>{props.dog.name.toUpperCase()}</DogName>
@@ -25,10 +25,10 @@ const DogImage = styled.Image`
 `
 
 const DogName = styled.Text`
-    color: ${gold}
-    font-size: 20;
-    font-family: 'Montserrat-Medium';
-    margin-bottom: 10;
+	color: ${gold};
+	font-size: 20;
+	font-family: 'Montserrat-Medium';
+	margin-bottom: 10;
 `
 
 const DogInfo = styled.Text`

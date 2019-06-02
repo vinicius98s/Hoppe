@@ -1,7 +1,6 @@
 import React from 'react'
 import styled from 'styled-components/native'
-import { ImagePicker } from 'expo'
-import { Image, View, Alert, ScrollView } from 'react-native'
+import { ImagePicker, Permissions } from 'expo'
 
 import Button from '../components/Button'
 import Layout from '../components/Layout'
@@ -10,7 +9,7 @@ import Camera from '../assets/icons/Camera'
 
 import { darkGrey, gold } from '../helpers/colors'
 import { addUser } from '../helpers/API'
-import { screenWidth, screenHeight } from '../helpers/phoneConstants'
+import { screenWidth } from '../helpers/phoneConstants'
 import { setUserImage } from '../helpers/AsyncStorage'
 
 export default class Register extends React.Component {
@@ -89,10 +88,11 @@ export default class Register extends React.Component {
 		addUser({
 			name: name.value,
 			lastName: lastName.value,
-			email: email.value,
+			email: email.value.trim(),
 			cpf: cpf.value,
 			password: password.value,
-			groups: []
+			groups: [],
+			verified: true
 		})
 
 		setUserImage(image)
@@ -109,14 +109,18 @@ export default class Register extends React.Component {
 	}
 
 	handlePickImage = async () => {
-		const image = await ImagePicker.launchImageLibraryAsync({
-			aspect: [4, 3],
-			allowsEditing: true,
-			mediaTypes: 'Images'
-		})
+		const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL)
 
-		if (!image.cancelled) {
-			this.setState({ image: image.uri })
+		if (status === 'granted') {
+			const image = await ImagePicker.launchImageLibraryAsync({
+				aspect: [5, 4],
+				allowsEditing: true,
+				mediaTypes: 'Images'
+			})
+
+			if (!image.cancelled) {
+				this.setState({ image: image.uri })
+			}
 		}
 	}
 
@@ -130,7 +134,7 @@ export default class Register extends React.Component {
 				}}
 				noMenu
 			>
-				<Container behavior="padding">
+				<Container behavior="padding" keyboardVerticalOffset={100}>
 					<Camera handleOnPress={this.handlePickImage} />
 					{this.state.error.hadError && <Error>{this.state.error.errorMessage}</Error>}
 					<Input
@@ -224,6 +228,7 @@ const Input = styled.TextInput`
 const Row = styled.View`
 	flex-direction: row;
 	margin-top: 50;
+	margin-bottom: 30;
 `
 
 const Error = styled.Text`

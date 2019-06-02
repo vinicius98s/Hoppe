@@ -8,6 +8,11 @@ import Register from './pages/Register'
 import Home from './pages/Home'
 import AuthLoading from './pages/AuthLoading'
 import Animals from './pages/Animals'
+import Animal from './pages/Animal'
+import Patronize from './pages/Patronize'
+import ConfirmPatronize from './pages/ConfirmPatronize'
+import About from './pages/About'
+import Profile from './pages/Profile'
 
 import { getDogsData } from './helpers/API'
 
@@ -42,6 +47,41 @@ const AppStackNavigation = createStackNavigator({
 	},
 	Animals: {
 		screen: Animals,
+		navigationOptions: {
+			headerLeft: null,
+			headerTransparent: true
+		}
+	},
+	Animal: {
+		screen: Animal,
+		navigationOptions: {
+			headerLeft: null,
+			headerTransparent: true
+		}
+	},
+	Patronize: {
+		screen: Patronize,
+		navigationOptions: {
+			headerLeft: null,
+			headerTransparent: true
+		}
+	},
+	ConfirmPatronize: {
+		screen: ConfirmPatronize,
+		navigationOptions: {
+			headerLeft: null,
+			headerTransparent: true
+		}
+	},
+	About: {
+		screen: About,
+		navigationOptions: {
+			headerLeft: null,
+			headerTransparent: true
+		}
+	},
+	Profile: {
+		screen: Profile,
 		navigationOptions: {
 			headerLeft: null,
 			headerTransparent: true
