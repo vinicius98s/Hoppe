@@ -23,3 +23,7 @@ export function checkLogin(data) {
 export function getDogsData() {
 	return axios.get(`${BASE_URL}/dogs`).then(({ data }) => data)
 }
+
+export function getOngsData() {
+	return axios.get(`${BASE_URL}/ongs`).then(({ data }) => data)
+}

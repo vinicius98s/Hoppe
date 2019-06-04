@@ -27,13 +27,7 @@ export default function About(props) {
 				<Text>
 					Conforme essas tarefas vão sendo executadas , o usuário ganhará Selos delas, como por exemplo:
 				</Text>
-				<StampWrapper>
-					<Hygiene pattern="gold" />
-					<StampInfoWrapper>
-						<StampTitle>Higiene Ouro</StampTitle>
-						<StampDescription>Ajudou com higiene durante 1 ano</StampDescription>
-					</StampInfoWrapper>
-				</StampWrapper>
+				<Hygiene pattern="gold" title="Higiene Ouro" description="Ajudou com higiene durante 1 ano" />
 			</Container>
 		</Layout>
 	)
@@ -48,24 +42,4 @@ const Text = styled.Text`
 
 const Container = styled.View`
 	flex: 1;
-`
-
-const StampInfoWrapper = styled.View``
-
-const StampWrapper = styled.View`
-	flex-direction: row;
-	justify-content: space-around;
-	align-items: center;
-`
-
-const StampTitle = styled.Text`
-	font-size: 13;
-	color: white;
-	font-family: 'Montserrat-Medium';
-`
-
-const StampDescription = styled.Text`
-	font-size: 10;
-	color: white;
-	font-family: 'Montserrat-ExtraLight';
 `

@@ -13,6 +13,8 @@ import Patronize from './pages/Patronize'
 import ConfirmPatronize from './pages/ConfirmPatronize'
 import About from './pages/About'
 import Profile from './pages/Profile'
+import EditProfile from './pages/EditProfile'
+import Ong from './pages/Ong'
 
 import { getDogsData } from './helpers/API'
 
@@ -82,6 +84,20 @@ const AppStackNavigation = createStackNavigator({
 	},
 	Profile: {
 		screen: Profile,
+		navigationOptions: {
+			headerLeft: null,
+			headerTransparent: true
+		}
+	},
+	EditProfile: {
+		screen: EditProfile,
+		navigationOptions: {
+			headerLeft: null,
+			headerTransparent: true
+		}
+	},
+	Ong: {
+		screen: Ong,
 		navigationOptions: {
 			headerLeft: null,
 			headerTransparent: true

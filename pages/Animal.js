@@ -1,11 +1,12 @@
 import React from 'react'
 import styled from 'styled-components/native'
+import GallerySwiper from 'react-native-gallery-swiper'
 
 import Layout from '../components/Layout'
 import Button from '../components/Button'
 
 import { BASE_URL } from '../helpers/API'
-import { gold, darkerGrey } from '../helpers/colors'
+import { gold } from '../helpers/colors'
 import { screenWidth, statusBarHeight } from '../helpers/phoneConstants'
 
 export default class Animal extends React.Component {
@@ -20,7 +21,6 @@ export default class Animal extends React.Component {
 					handleOnLeftIconPress: () => this.props.navigation.goBack()
 				}}
 				navigation={this.props.navigation}
-				background={darkerGrey}
 				noPadding
 			>
 				<DogImage source={{ uri: `${BASE_URL}/assets/images/${dog.name}Group.jpg` }} />
@@ -30,7 +30,23 @@ export default class Animal extends React.Component {
 						<DogBioText key={index}>{text}</DogBioText>
 					))}
 					<DogBioText>Se você quiser adotá-lo, entre em contato com a ONG:</DogBioText>
-					<Button title={dog.ONG} style={{ marginBottom: 15 }} />
+					<Button
+						title={dog.ONG}
+						style={{ marginBottom: 15 }}
+						onPress={() =>
+							this.props.navigation.navigate('Ong', {
+								ongName: dog.ONG
+							})
+						}
+					/>
+					<DogBioText>Arraste para conferir suas fotos!</DogBioText>
+					<GallerySwiper
+						style={{ height: 300, marginBottom: 30, marginTop: 20 }}
+						resistantStrVertical={10000}
+						enableResistance
+						sensitiveScroll={false}
+						images={dog.gallery}
+					/>
 					<DogBioText>Ou pode ajudá-lo enquanto não encontra um dono. Que tal? Apadrinhe!</DogBioText>
 					<Button
 						title="apadrinhar"

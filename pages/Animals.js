@@ -4,8 +4,6 @@ import Layout from '../components/Layout'
 import Loading from '../components/Loading'
 import Dog from '../components/Dog'
 
-import { darkerGrey } from '../helpers/colors'
-
 import { getDogsDataFromStorage } from '../helpers/AsyncStorage'
 
 export default class Animals extends React.Component {
@@ -31,7 +29,6 @@ export default class Animals extends React.Component {
 					handleOnLeftIconPress: () => this.props.navigation.goBack()
 				}}
 				navigation={this.props.navigation}
-				background={darkerGrey}
 			>
 				{this.state.dogs.map((dog, index) => (
 					<Dog

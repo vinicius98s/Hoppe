@@ -30,5 +30,6 @@ export default function Arrow(props) {
 }
 
 const SvgWrapper = styled.View`
-	transform: ${({ direction }) => direction === 'left' && 'rotate(-90deg)'};
+	transform: ${({ direction }) =>
+		(direction === 'left' && 'rotate(-90deg)') || (direction === 'down' && 'rotate(180deg)')};
 `

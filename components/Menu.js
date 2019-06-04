@@ -4,7 +4,7 @@ import { StyleSheet, Animated, Easing } from 'react-native'
 
 import MenuIcon from '../assets/icons/Menu'
 
-import { gold, darkGrey } from '../helpers/colors'
+import { gold, darkGrey, darkerGrey } from '../helpers/colors'
 import { screenHeight, screenWidth } from '../helpers/phoneConstants'
 
 const styles = StyleSheet.create({
@@ -12,9 +12,12 @@ const styles = StyleSheet.create({
 		alignItems: 'center',
 		justifyContent: 'center',
 		height: screenHeight,
-		width: screenWidth,
+		width: screenWidth - 20,
 		position: 'absolute',
-		padding: 20
+		// padding: 20,
+		backgroundColor: darkerGrey,
+		borderTopLeftRadius: 15,
+		borderTopRightRadius: 15
 	}
 })
 
@@ -53,24 +56,19 @@ export default class Menu extends React.Component {
 				</TouchableWrapper>
 
 				<MenuContentWrapper>
-					<MenuItem onPress={() => this.handleNavigation('Profile')}>
-						<MenuImage source={require('../assets/img/MenuPerfil.png')} />
+					<MenuItem topLeftBorderRadius borderRight onPress={() => this.handleNavigation('Profile')}>
 						<MenuText>Perfil</MenuText>
 					</MenuItem>
-					<MenuItem>
-						<MenuImage source={require('../assets/img/MenuGrupo.png')} />
+					<MenuItem borderLeft topRightBorderRadius>
 						<MenuText>Grupo</MenuText>
 					</MenuItem>
 					<MenuItem fullWidth onPress={() => this.handleNavigation('Animals')}>
-						<MenuImage source={require('../assets/img/MenuAnimais.png')} />
 						<MenuText>Animais</MenuText>
 					</MenuItem>
-					<MenuItem>
-						<MenuImage source={require('../assets/img/MenuContato.png')} />
+					<MenuItem borderRight>
 						<MenuText>Contato</MenuText>
 					</MenuItem>
-					<MenuItem onPress={() => this.handleNavigation('About')}>
-						<MenuImage source={require('../assets/img/MenuSobre.png')} />
+					<MenuItem borderLeft onPress={() => this.handleNavigation('About')}>
 						<MenuText>Sobre</MenuText>
 					</MenuItem>
 				</MenuContentWrapper>
@@ -86,13 +84,11 @@ const MenuItem = styled.TouchableOpacity`
 	align-items: center;
 	justify-content: center;
 	position: relative;
-`
-
-const MenuImage = styled.Image`
-	position: absolute;
-	width: 100%;
-	height: 100%;
-	opacity: 0.5;
+	${({ borderRight }) => borderRight && 'border-right-width: 2;'}
+	${({ borderLeft }) => borderLeft && 'border-left-width: 2;'}
+	border-top-width: 2;
+	border-bottom-width: 2;
+	border-color: #2a2a2a;
 `
 
 const MenuText = styled.Text`
@@ -111,15 +107,10 @@ const IconWrapper = styled.View`
 `
 
 const MenuContentWrapper = styled.View`
-	border-top-left-radius: 10;
-	border-top-right-radius: 10;
-	border-width: 4;
-	border-color: ${gold};
-	border-bottom-width: 0;
 	width: 100%;
 	height: 86%;
-	bottom: 0;
+	bottom: -10;
 	flex-direction: row;
 	flex-wrap: wrap;
-	background: ${darkGrey};
+	background: ${darkerGrey};
 `

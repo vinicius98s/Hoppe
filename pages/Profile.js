@@ -3,13 +3,18 @@ import styled from 'styled-components/native'
 
 import Layout from '../components/Layout'
 import Loading from '../components/Loading'
+import Collapsable from '../components/Collapsable'
 
 import Verified from '../assets/icons/Verified'
 import Edit from '../assets/icons/Edit'
-import Arrow from '../assets/icons/Arrow'
+
+import Hygiene from '../assets/stamps/Hygiene'
+import Feeding from '../assets/stamps/Feeding'
+import Health from '../assets/stamps/Health'
+import Recreation from '../assets/stamps/Recreation'
 
 import { gold } from '../helpers/colors'
-import { screenWidth, screenHeight } from '../helpers/phoneConstants'
+import { screenWidth } from '../helpers/phoneConstants'
 import { getUserLoginData, removeUserLoginData, getUserImage } from '../helpers/AsyncStorage'
 
 export default class Profile extends React.Component {
@@ -29,11 +34,22 @@ export default class Profile extends React.Component {
 		this.setState({ isLoading: false, user: { ...parseLoginData, photo: userImage } })
 	}
 
+	async componentDidUpdate() {
+		const userLoginData = await getUserLoginData()
+		const parseLoginData = JSON.parse(userLoginData)
+
+		this.setState((prevState) => ({
+			isLoading: false,
+			user: {
+				...prevState.user,
+				...parseLoginData
+			}
+		}))
+	}
+
 	handleLogout = () => {
 		removeUserLoginData().then(this.props.navigation.navigate('Login'))
 	}
-
-	handleToggleCollapsableItem = () => {}
 
 	render() {
 		if (this.state.isLoading) {
@@ -60,34 +76,70 @@ export default class Profile extends React.Component {
 							<Name>{`${user.name} ${user.lastName}`}</Name>
 							{user.verified && <Verified pattern="gold" />}
 						</NameWrapper>
-						<EditWrapper>
+						<EditWrapper
+							onPress={() =>
+								this.props.navigation.navigate('EditProfile', {
+									userData: user
+								})
+							}
+						>
 							<Edit pattern="gold" />
 						</EditWrapper>
 					</Row>
-					<CollapsableWrapper>
-						<Collapsable
-							borderOnTop
-							onPress={() => this.handleToggleCollapsableItem(this.state.stampAnimatedHeight)}
-						>
-							<CollapsableText>SELOS</CollapsableText>
-							<Arrow />
-						</Collapsable>
-						<Collapsable
-							borderOnTop
-							borderOnBottom
-							onPress={() => this.handleToggleCollapsableItem(this.state.controlAnimatedHeight)}
-						>
-							<CollapsableText>CONTROLE</CollapsableText>
-							<Arrow />
-						</Collapsable>
-						<Collapsable
-							borderOnBottom
-							onPress={() => this.handleToggleCollapsableItem(this.state.aboutAnimatedHeight)}
-						>
-							<CollapsableText>SOBRE</CollapsableText>
-							<Arrow />
-						</Collapsable>
-					</CollapsableWrapper>
+					<Collapsable title="SELOS" borderOnTop marginTop={30}>
+						<Hygiene pattern="gold" title="Higiene Ouro" description="Ajudou com higiene durante 1 ano" />
+						<Recreation
+							pattern="silver"
+							title="Lazer Prata"
+							description="Ajudou com lazer durante 6 meses"
+						/>
+						<Feeding
+							pattern="bronze"
+							title="Alimentação Bronze"
+							description="Ajudou com alimentação durante 2 meses"
+						/>
+						<Health pattern="silver" title="Saúde Prata" description="Ajudou com saúde durante 6 meses" />
+					</Collapsable>
+					<Collapsable title="CONTROLE" borderOnBottom borderOnTop>
+						<Hygiene
+							pattern="gold"
+							title="Higiene Gold"
+							description="Último selo conquistado. Parabéns!"
+							control={100}
+						/>
+						<Recreation
+							pattern="silver"
+							title="Lazer Prata"
+							description="80% completo para o próximo selo"
+							control={30}
+						/>
+						<Feeding
+							pattern="bronze"
+							title="Alimentação Bronze"
+							description="80% completo para o próximo selo"
+							control={80}
+						/>
+						<Health
+							pattern="silver"
+							title="Saúde Prata"
+							description="45% completo para o próximo selo"
+							control={45}
+						/>
+					</Collapsable>
+					<Collapsable title="SOBRE" borderOnBottom marginBottom={80}>
+						<Row spaceBetween>
+							<AboutName>Nome:</AboutName>
+							<AboutName>{`${user.name} ${user.lastName}`}</AboutName>
+						</Row>
+						<Row spaceBetween>
+							<AboutName>Idade:</AboutName>
+							<AboutName>{user.age || 'Não informado'}</AboutName>
+						</Row>
+						<Row spaceBetween>
+							<AboutName fullWidth>Sobre:</AboutName>
+							<AboutName marginOnTop={15}>{user.about || 'Não informado'}</AboutName>
+						</Row>
+					</Collapsable>
 				</Container>
 			</Layout>
 		)
@@ -101,7 +153,7 @@ const Container = styled.View`
 `
 
 const ProfilePhoto = styled.Image`
-	width: 65%;
+	width: 60%;
 	border-radius: 9999;
 	height: 200;
 	border-width: 2;
@@ -126,44 +178,25 @@ const EditWrapper = styled.TouchableOpacity`
 
 const Row = styled.View`
 	flex-direction: row;
-	justify-content: space-around;
+	justify-content: ${({ spaceBetween }) => (spaceBetween ? 'space-between;' : 'space-around;')};
 	align-items: center;
 	width: 100%;
 	margin-top: 30;
+	flex-wrap: wrap;
 `
 
-const CollapsableWrapper = styled.View`
-	align-items: center;
-	width: ${screenWidth - 40};
-	margin-top: 30;
-	margin-bottom: 80;
-`
-
-const Collapsable = styled.TouchableOpacity`
-	${({ borderOnBottom }) =>
-		borderOnBottom &&
-		`
-		border-bottom-width: 2;
-		border-bottom-color: ${gold};
-	`};
-	${({ borderOnTop }) =>
-		borderOnTop &&
-		`
-		border-top-width: 2;
-		border-top-color: ${gold};
-	`};
-	padding-top: 15;
-	padding-bottom: 15;
-	padding-left: 5;
-	padding-right: 5;
-	width: 100%;
-	justify-content: space-between;
-	align-items: center;
-	flex-direction: row;
-`
-
-const CollapsableText = styled.Text`
+const AboutName = styled.Text`
 	font-family: 'Montserrat-Medium';
 	color: white;
 	font-size: 16;
+	${({ fullWidth }) =>
+		fullWidth &&
+		`
+		width: 100%;
+	`};
+	${({ marginOnTop }) =>
+		marginOnTop &&
+		`
+		margin-top: ${marginOnTop};
+	`};
 `

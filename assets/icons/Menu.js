@@ -1,7 +1,7 @@
 import React from 'react'
 import { Svg } from 'expo'
 
-import { darkGrey } from '../../helpers/colors'
+import { darkGrey, darkerGrey } from '../../helpers/colors'
 
 const { Defs, LinearGradient, Stop, Circle, Path } = Svg
 
@@ -16,7 +16,7 @@ export default function Menu(props) {
 					<Stop offset="1" stopColor="#cb9b51" />
 				</LinearGradient>
 			</Defs>
-			<Circle fill={darkGrey} cx="23.25" cy="23.25" r="20.75" strokeWidth="4" stroke="url(#gradient)" />
+			<Circle fill={darkerGrey} cx="23.25" cy="23.25" r="20.75" strokeWidth="4" stroke="url(#gradient)" />
 			<Path
 				fill="none"
 				x="-1"
