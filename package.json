@@ -14,7 +14,7 @@
     "react-native-collapsible": "^1.4.0",
     "react-native-gallery-swiper": "^1.21.0",
     "react-navigation": "^3.9.1",
-    "styled-components": "^4.2.0"
+    "styled-components": "^4.4.1"
   },
   "devDependencies": {
     "babel-preset-expo": "^5.0.0"
